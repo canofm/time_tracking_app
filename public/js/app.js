@@ -18,12 +18,21 @@ class TimersDashboard extends React.Component {
     ]
   }
 
+  handleCreateFormSubmit = (timer) => {
+    this.createTimer(timer);
+  };
+
+  createTimer = (timer) => {
+    const t = helpers.newTimer(timer);
+    this.setState({ timers: this.state.timers.concat(t) });
+  };
+
   render() {
     return (
       <div className='ui tree column centered grid'>
         <div className='column'>
           <EditableTimerList timers={this.state.timers}/>
-          <ToggleableTimerForm isOpen={true} />
+          <ToggleableTimerForm onFormSubmit={this.handleCreateFormSubmit}/>
         </div>
       </div>
     );
@@ -93,8 +102,16 @@ class TimerForm extends React.Component {
     this.setState({ project: e.target.value });
   };
 
+  handleSubmit = () => {
+    this.props.onFormSubmit({
+      id: this.props.id,
+      title: this.state.title,
+      project: this.state.project
+    });
+  };
+
   render() {
-    const submitText = this.props.title ? 'Update' : 'Create';
+    const submitText = this.props.id ? 'Update' : 'Create';
     return (
       <div className='ui centered card'>
         <div className='content'>
@@ -108,10 +125,10 @@ class TimerForm extends React.Component {
               <input type='text' value={this.state.project} onChange={this.handleProjectChange} />
             </div>
             <div className='ui two bottom attached buttons'>
-              <button className='ui basic blue button'>
+              <button className='ui basic blue button' onClick={this.handleSubmit}>
                 {submitText}
               </button>
-              <button className='ui basic red button'>
+              <button className='ui basic red button' onClick={this.props.onFormClose}>
                 Cancel
               </button>
             </div>
@@ -131,9 +148,18 @@ class ToggleableTimerForm extends React.Component {
     this.setState({ isOpen: true });
   };
 
+  handleFormClose = () => {
+    this.setState({ isOpen: false });
+  };
+
+  handleFormSubmit = (timer) => {
+    this.props.onFormSubmit(timer);
+    this.setState({ isOpen: false });
+  };
+
   render() {
     if (this.state.isOpen) {
-      return (<TimerForm />);
+      return (<TimerForm onFormSubmit={this.handleFormSubmit} onFormClose={this.handleFormClose} />);
     } else {
       return (
         <div className='ui basic content center aligned segment'>
