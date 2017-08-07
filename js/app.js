@@ -12,7 +12,7 @@ class TimersDashboard extends React.Component {
 }
 
 class EditableTimerList extends React.Component {
-  render () {
+  render() {
     return (
       <div id='timers'>
         <EditableTimer
@@ -31,5 +31,27 @@ class EditableTimerList extends React.Component {
         />
       </div>
     );
+  }
+}
+
+class EditableTimer extends React.Component {
+  render() {
+    if (this.props.editFormOpen) {
+      return (
+        <TimerForm
+          title={this.props.title}
+          project={this.props.project}
+        />
+      );
+    } else {
+      return (
+        <Timer
+          title={this.props.title}
+          project={this.props.project}
+          elapsed={this.props.elapsed}
+          runningSince={this.props.runningSince}
+        />
+      );
+    }
   }
 }
