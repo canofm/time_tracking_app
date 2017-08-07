@@ -18,7 +18,7 @@ class EditableTimerList extends React.Component {
         <EditableTimer
           title='Learn React'
           project='Web domination'
-          elapse='8986300'
+          elapsed='8986300'
           runningSince={null}
           editFormOpen={false}
         />
@@ -133,3 +133,8 @@ class Timer extends React.Component {
     );
   }
 }
+
+ReactDOM.render(
+  <TimersDashboard />,
+  document.getElementById('content')
+);
