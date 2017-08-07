@@ -121,7 +121,7 @@ class Timer extends React.Component {
             <span className='right floated edit icon'>
               <i className='edit icon' />
             </span>
-            <span className=''>
+            <span className='right floated trash icon'>
               <i className='trash icon' />
             </span>
           </div>
